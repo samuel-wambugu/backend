@@ -52,7 +52,6 @@ bleach==6.3.0
 blinker==1.9.0
 bottle==0.13.2
 Bottleneck==1.4.2
-Brlapi==0.8.7
 Brotli==1.1.0
 browser-cookie3==0.20.1
 capstone==5.0.6
