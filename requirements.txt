@@ -70,7 +70,7 @@ cli_helpers==2.7.0
 click==8.1.8
 click-didyoumean==0.3.1
 click-repl==0.3.0
-cmd2==2.5.11+ds
+cmd2==2.5.11
 colorama==0.4.6
 configobj==5.0.9
 constantly==23.10.4
