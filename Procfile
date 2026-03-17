@@ -1,1 +1,1 @@
-web: gunicorn gbv_backend.wsgi
+web: python -m gunicorn gbv_backend.wsgi
