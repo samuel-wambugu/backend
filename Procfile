@@ -1,1 +1,1 @@
-web: gunicorn GbvApplication.wsgi
+web: gunicorn gbv_backend.wsgi
