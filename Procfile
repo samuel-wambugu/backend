@@ -1,1 +1,1 @@
-web: gunicorn gbv_backend.wsgi:application
+web: bash -c "which python; which pip; pip list; env; gunicorn gbv_backend.wsgi:application"
