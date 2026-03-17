@@ -25,7 +25,11 @@ SECRET_KEY = config('SECRET_KEY', default='change-this-before-production')
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-allowed_hosts_raw = config('GbvApplication.onrender.com').strip()
+from decouple import config
+
+# Read ALLOWED_HOSTS from environment; default to empty string if not set
+allowed_hosts_raw = config('ALLOWED_HOSTS', default='').strip()
+
 if allowed_hosts_raw:
     ALLOWED_HOSTS = [host.strip() for host in allowed_hosts_raw.split(',') if host.strip()]
 elif DEBUG:
