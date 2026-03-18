@@ -25,18 +25,20 @@ SECRET_KEY = config('SECRET_KEY', default='change-this-before-production')
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-from decouple import config
+# from decouple import config
 
-# Read ALLOWED_HOSTS from environment; default to empty string if not set
-allowed_hosts_raw = config('ALLOWED_HOSTS', default='').strip()
+# # Read ALLOWED_HOSTS from environment; default to empty string if not set
+# allowed_hosts_raw = config('ALLOWED_HOSTS', default='').strip()
 
-if allowed_hosts_raw:
-    ALLOWED_HOSTS = [host.strip() for host in allowed_hosts_raw.split(',') if host.strip()]
-elif DEBUG:
-    # Local mobile development often uses hosts such as 10.0.2.2 or LAN IPs.
-    ALLOWED_HOSTS = ['*']
-else:
-    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+# if allowed_hosts_raw:
+#     ALLOWED_HOSTS = [host.strip() for host in allowed_hosts_raw.split(',') if host.strip()]
+# elif DEBUG:
+#     # Local mobile development often uses hosts such as 10.0.2.2 or LAN IPs.
+#     ALLOWED_HOSTS = ['*']
+# else:
+#     ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
