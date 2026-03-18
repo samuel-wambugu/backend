@@ -142,7 +142,7 @@ SITE_URL = config('SITE_URL', default='http://127.0.0.1:8000')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS Settings
-allowed_origins_raw = config('CORS_ALLOWED_ORIGINS', default='http://localhost:3000,http://127.0.0.1:3000,http://localhost:8080')
+allowed_origins_raw = config('CORS_ALLOWED_ORIGINS', default='"https://gbvapplications.netlify.app",http://localhost:3000,http://127.0.0.1:3000,http://localhost:8080')
 CORS_ALLOWED_ORIGINS = [origin.strip() for origin in allowed_origins_raw.split(',') if origin.strip()]
 CORS_ALLOW_ALL_ORIGINS = config('CORS_ALLOW_ALL_ORIGINS', default=False, cast=bool)
 
@@ -155,7 +155,7 @@ CORS_ALLOWED_ORIGIN_REGEXES = [
     pattern.strip() for pattern in allowed_origin_regexes_raw.split(',') if pattern.strip()
 ]
 
-csrf_origins_raw = config('CSRF_TRUSTED_ORIGINS', default='http://localhost:3000,http://127.0.0.1:3000')
+csrf_origins_raw = config('CSRF_TRUSTED_ORIGINS', default="https://gbvapplications.netlify.app")
 CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in csrf_origins_raw.split(',') if origin.strip()]
 
 # REST Framework
