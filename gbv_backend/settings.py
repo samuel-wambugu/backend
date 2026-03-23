@@ -25,6 +25,11 @@ SECRET_KEY = config('SECRET_KEY', default='change-this-before-production')
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 
+
+def _split_csv_env(value: str) -> list[str]:
+    """Split comma-separated env vars and ignore empty entries."""
+    return [item.strip() for item in value.split(',') if item.strip()]
+
 # from decouple import config
 
 # # Read ALLOWED_HOSTS from environment; default to empty string if not set
@@ -38,7 +43,11 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 # else:
 #     ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
+allowed_hosts_raw = config(
+    'ALLOWED_HOSTS',
+    default='backend-z0m4.onrender.com,localhost,127.0.0.1',
+)
+ALLOWED_HOSTS = _split_csv_env(allowed_hosts_raw)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -64,8 +73,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -142,9 +151,13 @@ SITE_URL = config('SITE_URL', default='http://127.0.0.1:8000')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS Settings
-allowed_origins_raw = config('CORS_ALLOWED_ORIGINS', default='"https://gbvapplications.netlify.app",http://localhost:3000,http://127.0.0.1:3000,http://localhost:8080')
-CORS_ALLOWED_ORIGINS = [origin.strip() for origin in allowed_origins_raw.split(',') if origin.strip()]
-CORS_ALLOW_ALL_ORIGINS = config('CORS_ALLOW_ALL_ORIGINS', default=False, cast=bool)
+allowed_origins_raw = config(
+    'CORS_ALLOWED_ORIGINS',
+    default='https://gbvapplications.netlify.app,http://localhost:3000,http://127.0.0.1:3000,http://localhost:8080',
+)
+CORS_ALLOWED_ORIGINS = _split_csv_env(allowed_origins_raw)
+# Keep development friction low for mobile/web testing; set to False in Render env for production lock-down.
+CORS_ALLOW_ALL_ORIGINS = config('CORS_ALLOW_ALL_ORIGINS', default=DEBUG, cast=bool)
 
 # Allow localhost dev servers that use random ports (e.g. Flutter web debug).
 allowed_origin_regexes_raw = config(
@@ -155,8 +168,11 @@ CORS_ALLOWED_ORIGIN_REGEXES = [
     pattern.strip() for pattern in allowed_origin_regexes_raw.split(',') if pattern.strip()
 ]
 
-csrf_origins_raw = config('CSRF_TRUSTED_ORIGINS', default="https://gbvapplications.netlify.app")
-CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in csrf_origins_raw.split(',') if origin.strip()]
+csrf_origins_raw = config(
+    'CSRF_TRUSTED_ORIGINS',
+    default='https://backend-z0m4.onrender.com,https://gbvapplications.netlify.app',
+)
+CSRF_TRUSTED_ORIGINS = _split_csv_env(csrf_origins_raw)
 
 # REST Framework
 REST_FRAMEWORK = {
